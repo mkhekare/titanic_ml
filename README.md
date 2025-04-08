@@ -1,100 +1,91 @@
-# Wine Quality Prediction
+# Titanic Survival Prediction
 
 ## Overview
 
-This project aims to predict the quality of wine using various features from two datasets: red and white wine. It addresses the class imbalance problem prevalent in the dataset, particularly in the quality labels.
+This project aims to predict the survival of passengers aboard the Titanic using various features from the dataset. The data includes information about passengers such as age, gender, ticket class, and more.
 
-## Problem Statement
+## Data Description
 
-The main goal is to predict wine quality based on various chemical properties. The dataset consists of features such as acidity, sugar content, and alcohol level, among others.
+- **Survived**: 0 = Did not survive, 1 = Survived
+- **Pclass**: Ticket class (1 = First class, 2 = Second class, 3 = Third class). This can also be seen as a proxy for socio-economic status.
+- **Sex**: Male or female
+- **Age**: Age in years, fractional if less than 1
+- **SibSp**: Number of siblings or spouses aboard the Titanic
+- **Parch**: Number of parents or children aboard the Titanic
+- **Ticket**: Passenger ticket number
+- **Fare**: Passenger fare
+- **Cabin**: Cabin number
+- **Embarked**: Point of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton)
 
 ## Libraries Used
 
 - **Pandas**: For data manipulation and analysis.
 - **NumPy**: For numerical operations.
 - **Scikit-learn**: For machine learning models and metrics.
-- **Imbalanced-learn**: For handling class imbalance using SMOTE.
 - **Seaborn & Matplotlib**: For data visualization.
 
 ## Steps in the Project
 
-1. **Data Loading**:
-   - Load the datasets for red and white wine.
-  
+1. **Import Libraries**: Load necessary libraries for data manipulation and modeling.
+   
    ```python
    import pandas as pd
-   white_wine = pd.read_csv('winequality-white.csv', sep=';')
-   red_wine = pd.read_csv('winequality-red.csv', sep=';')
-   ```
-
-2. **Data Preparation**:
-   - Add a feature indicating the type of wine (red or white).
-   - Merge the two datasets and shuffle the observations.
-   - Create a quality label based on the quality score.
-
-3. **Data Exploration**:
-   - Visualize the distribution of wine quality labels to identify class imbalance.
-  
-   ```python
+   import numpy as np
+   from sklearn.preprocessing import LabelEncoder
+   from sklearn.linear_model import LogisticRegression
+   from sklearn.metrics import classification_report, confusion_matrix
    import seaborn as sns
    import matplotlib.pyplot as plt
-   sns.countplot(x=wines['quality_label'])
+   ```
+
+2. **Load Data**: Read the training and test datasets.
+
+   ```python
+   train = pd.read_csv("titanic_train.csv")
+   test = pd.read_csv("titanic_test.csv")
+   ```
+
+3. **Explore Data**: Check the shape and structure of the datasets.
+
+4. **Handle Missing Values**: Identify and fill missing values, particularly in the `Age` and `Embarked` columns.
+
+5. **Feature Engineering**: Drop unnecessary features (e.g., `Ticket`, `Cabin`, `Name`, `PassengerId`) and encode categorical variables (`Sex`, `Embarked`).
+
+6. **Data Splitting**: Separate the combined dataset back into training and test sets.
+
+7. **Model Training**: Train a Logistic Regression model on the training dataset.
+
+   ```python
+   lg = LogisticRegression()
+   lg.fit(X, y1)
+   ```
+
+8. **Model Evaluation**: Evaluate the model using confusion matrix and classification report.
+
+9. **Visualize Predictions**: Create visualizations to understand the predictions made by the model.
+
+   ```python
+   sns.countplot(x=y_pred, edgecolor='black')
+   plt.title("Countplot of Predictions")
+   plt.xlabel("Predicted Values")
+   plt.ylabel("Count")
    plt.show()
    ```
 
-4. **Data Splitting**:
-   - Split the data into training and test sets.
+## Logical Error Detection and Rectification
 
-5. **Data Scaling**:
-   - Scale the features using `StandardScaler`.
+### Task
 
-6. **Model Training**:
-   - Train a Logistic Regression model on the imbalanced dataset.
-  
-   ```python
-   from sklearn.linear_model import LogisticRegression
-   lg = LogisticRegression()
-   lg.fit(X_train, y_train)
-   ```
-
-7. **Handling Class Imbalance**:
-   - Apply SMOTE to balance the classes in the training set.
-  
-   ```python
-   from imblearn.over_sampling import SMOTE
-   smote = SMOTE()
-   X_train_smote, y_train_smote = smote.fit_resample(X_train, y_train)
-   ```
-
-8. **Model Evaluation**:
-   - Predict on the test set and evaluate the model using confusion matrix and classification report.
-  
-   ```python
-   y_pred_smote = lg.predict(X_test)
-   from sklearn.metrics import confusion_matrix, classification_report
-   results = confusion_matrix(y_test, y_pred_smote)
-   print("Confusion Matrix:\n", results)
-   print("Classification Report:\n", classification_report(y_test, y_pred_smote))
-   ```
-
-## Results
-
-- The confusion matrix and classification report will provide insights into the model's performance, particularly in predicting the minority class.
+1. **Identify** the logical error in the code.
+2. **Explain** why it is an error and the impact it has on the results.
+3. **Correct** the code to eliminate the logical error.
+4. **Compare Results**:
+   - Show the difference in the output before and after fixing the error.
+   - Provide a brief analysis of how the correction improves the results.
 
 ## Conclusion
 
-This project demonstrates the importance of addressing class imbalance in predictive modeling. By applying SMOTE, we can improve the model's ability to predict underrepresented classes effectively.
-
-## Future Work
-
-- Experiment with other machine learning algorithms to further improve prediction accuracy.
-- Implement hyperparameter tuning for better model performance.
-- Explore additional feature engineering techniques to enhance the dataset.
-
-## Acknowledgments
-
-- [Wine Quality Dataset](https://archive.ics.uci.edu/ml/datasets/wine+quality) from the UCI Machine Learning Repository.
-- Various libraries and frameworks that facilitate data science and machine learning tasks.
+This project provides insights into the factors affecting survival on the Titanic and demonstrates the application of machine learning techniques to real-world problems. The logical error detection and correction process is crucial for improving model accuracy and ensuring reliable predictions.
 
 ## License
 
